@@ -1,27 +1,27 @@
 const express = require("express");
-const db = require("./config/db");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const U_router = require("./Routes/userRouter");
-const B_router = require("./Routes/blogRouter");
-
 const app = express();
-
-
-app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "views"));
-app.use(express.json());
+const db = require("./config/db");
+const cookieParser = require("cookie-parser");
+const multer = require("multer");
+const path = require("path");
+const C_Route = require("./Router/CategoryRouter");
+const P_Router = require("./Router/ProductRouter");
+const U_Router = require("./Router/UserRouter");
+const S_Router = require("./Router/SubcategoryRouter");
 
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+app.use("/upload", express.static(path.join(__dirname, "upload")))
 
-app.use("/user", U_router);
-app.use("/blog",B_router)
-app.get("/", (req, res) => {
-  if (!req.cookies.user) return res.redirect("/user/login");
-  res.redirect("/blog");
-});
+app.use(express.urlencoded());
+app.use(express.json());
 
-app.listen(9800, () => {
-  console.log("server listen");
-});
+app.set("view engine", "ejs")
+app.use("/user", U_Router);
+app.use("/product", P_Router);
+app.use("/category" , C_Route)
+app.use('/subcategory',S_Router)
+
+
+app.listen(7800, () => {
+    console.log("Server Listen")
+})

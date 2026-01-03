@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Subcategories</h1>
+
+    <form action="/subcategory" method="post">
+     <select name="categoryId" required>
+  <option value="">Select Category</option>
+  <% categories.forEach(cat => { %>
+    <option value="<%= cat._id %>"><%= cat.title %></option>
+  <% }) %>
+</select>
+
+      <input type="text" name="title" placeholder="Enter Subcategory" required />
+      <input type="submit" value="Add Subcategory" />
+    </form>
+
+    <table border="1" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Subcategory</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subcategories.forEach(sub => { %>
+        <tr>
+          <td><%= sub.categoryId ? sub.categoryId.title : "No Category" %></td>
+          <td><%= sub.title %></td>
+          <td>
+            <a href="/subcategory/edit/<%= sub._id %>">Edit</a>
+            <a href="/subcategory/delete/<%= sub._id %>" onclick="return confirm('Are you sure?')">Delete</a>
+          </td>
+        </tr>
+        <% }) %>
+
+
+        
+      </tbody>
+    </table>
+  </body>
+</html>
